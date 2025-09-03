@@ -13,5 +13,5 @@ app.listen(PORT, () => {
 const __filename = fileURLToPath(import.meta.url);
 
 app.get('/menu', (req, res) => {
-    res.sendFile(path.join(path.dirname(__filename), 'views', 'index.html'));
+    res.sendFile(path.join(path.dirname(__filename), 'views', 'menu.ejs'));
 });
