@@ -7,8 +7,8 @@ const Usuario = db.define('usuario',{
     apellido:{ type: DataTypes.STRING },
     email:{ type: DataTypes.STRING },
     password:{ type: DataTypes.STRING },
-    rol:{ type: DataTypes.Enum('administrador', 'trabajador') },
-    estado:{ type: DataTypes.Enum('activo', 'inactivo') }
+    rol:{ type: DataTypes.STRING },
+    estado:{ type: DataTypes.STRING }
 });
 
 export default Usuario;

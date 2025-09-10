@@ -3,14 +3,15 @@
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "js": "^0.1.0",
+    "mysql2": "^3.14.5",
     "node": "^24.6.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "sequelize": "^6.37.7"
   },
   "name": "proyecto_asistencia",
   "version": "1.0.0",
   "description": "--npm install node\r --npm install nodemon \r --npm install express\r --npm install ejs",
   "main": "main.js",
-  "devDependencies": {},
   "scripts": {
     "start": "nodemon main.js",
     "dev": "nodemon main.js",
@@ -23,6 +24,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/bodoque90/Proyecto_Asistencia/issues"
   },
