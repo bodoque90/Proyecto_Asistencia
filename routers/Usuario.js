@@ -10,16 +10,4 @@ const Asistencia = db.define('asistencia',{
     horaSalida:{ type: DataTypes.TIME }
 });
 
-export const registrarEntrada = async () => {
-    const{idUsuario}= req.body;
-    const fecha = new Date().toISOString().split('T')[0]; // Obtener la fecha actual en formato YYYY-MM-DD
-    const horaEntrada = new Date().toTimeString().split(' ')[0]; 
-    try{
-        await Asistencia.create({idUsuario, fecha, horaEntrada});
-        res.json({message: 'Entrada registrada correctamente'});
-        
-    }catch(error){
-        console.log(error);
-        res.status(500).json({message: 'Error al registrar la entrada'});
-    }
-};
+export default Asistencia;

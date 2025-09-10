@@ -1,4 +1,5 @@
 import express from 'express';
+import Asistencia from './routers/Usuario';
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -9,6 +10,8 @@ app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
 
+app.use(express.json());
+app,use('asistencia', Asistencia);
 
 const __filename = fileURLToPath(import.meta.url);
 
