@@ -7,8 +7,11 @@ const Usuario = db.define('usuario',{
     apellido:{ type: DataTypes.STRING },
     email:{ type: DataTypes.STRING },
     password:{ type: DataTypes.STRING },
-    rol:{ type: DataTypes.STRING },
-    estado:{ type: DataTypes.STRING }
+    rut :{ type: DataTypes.STRING },
+    telefono:{ type: DataTypes.STRING },
+    direccion:{ type: DataTypes.STRING },
+    horaEntrada:{ type: DataTypes.TIME },
+    horaSalida:{ type: DataTypes.TIME }
 });
 
 export default Usuario;

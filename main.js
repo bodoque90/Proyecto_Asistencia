@@ -3,7 +3,7 @@ import Asistencia from './routers/UsuarioRouter.js';
 import db from './config/db.js';
 import './model/Administrador.js';
 import './model/Trabajador.js';
-import './model/Asistencia.js';
+
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -29,5 +29,6 @@ const __filename = fileURLToPath(import.meta.url);
     } catch (error) {
         console.error('Error de conexión a la base de datos:', error);
     }
+
 
 
