@@ -5,5 +5,26 @@
     "js": "^0.1.0",
     "node": "^24.6.0",
     "nodemon": "^3.1.10"
-  }
+  },
+  "name": "proyecto_asistencia",
+  "version": "1.0.0",
+  "description": "--npm install node\r --npm install nodemon \r --npm install express\r --npm install ejs",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon main.js",
+    "dev": "nodemon main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bodoque90/Proyecto_Asistencia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bodoque90/Proyecto_Asistencia/issues"
+  },
+  "homepage": "https://github.com/bodoque90/Proyecto_Asistencia#readme"
 }
