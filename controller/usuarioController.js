@@ -1,3 +1,71 @@
+// Obtener todos los usuarios (excepto el admin logueado)
+import { Op } from "sequelize";
+const obtenerUsuarios = async (req, res) => {
+  try {
+    if (req.session.tipoUsuario !== 'administrador') {
+      return res.status(403).json({ error: 'No autorizado' });
+    }
+    const adminId = req.session.usuarioId;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = 10;
+    const { count, rows } = await Usuario.findAndCountAll({
+      where: { idUsuario: { [Op.ne]: adminId } },
+      attributes: ['idUsuario', 'nombre', 'apellido', 'email', 'rol', 'telefono', 'direccion'],
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
+      order: [['nombre', 'ASC']]
+    });
+    const totalPages = Math.ceil(count / pageSize);
+    res.json({ usuarios: rows, totalPages, page });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
+};
+
+// Modificar usuario
+const modificarUsuario = async (req, res) => {
+  try {
+    if (req.session.tipoUsuario !== 'administrador') {
+      return res.status(403).json({ error: 'No autorizado' });
+    }
+    const { id } = req.params;
+    const { nombre, apellido, email, rol, telefono, direccion } = req.body;
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+    usuario.nombre = nombre;
+    usuario.apellido = apellido;
+    usuario.email = email;
+    usuario.rol = rol;
+    usuario.telefono = telefono;
+    usuario.direccion = direccion;
+    await usuario.save();
+    res.json({ message: 'Usuario modificado correctamente' });
+  } catch (error) {
+    console.error(error);
+    if (error.name === 'SequelizeUniqueConstraintError' && error.errors[0].path === 'email') {
+      return res.status(400).json({ error: 'El correo electrónico ya está registrado.' });
+    }
+    res.status(500).json({ error: 'Error al modificar usuario' });
+  }
+};
+
+// Eliminar usuario
+const eliminarUsuario = async (req, res) => {
+  try {
+    if (req.session.tipoUsuario !== 'administrador') {
+      return res.status(403).json({ error: 'No autorizado' });
+    }
+    const { id } = req.params;
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+    await usuario.destroy();
+    res.json({ message: 'Usuario eliminado correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al eliminar usuario' });
+  }
+};
 import path from "path";
 import fs from "fs";
 
@@ -142,4 +210,4 @@ const agregarEmpleado = async(req, res) => {
   }
 }
 //exportar funciones
-export { viewLogin, viewMenu, agregarEmpleado, loginUsuario, marcarEntrada, marcarSalida, verHistorialAsistencias };
+export { viewLogin, viewMenu, agregarEmpleado, loginUsuario, marcarEntrada, marcarSalida, verHistorialAsistencias, obtenerUsuarios, modificarUsuario, eliminarUsuario };

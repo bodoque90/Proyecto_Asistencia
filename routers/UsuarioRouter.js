@@ -1,7 +1,12 @@
 
+
 import express from "express";
-import { viewLogin, viewMenu, agregarEmpleado, loginUsuario, marcarEntrada, marcarSalida, verHistorialAsistencias } from "../controller/usuarioController.js";
 const router = express.Router();
+import { viewLogin, viewMenu, agregarEmpleado, loginUsuario, marcarEntrada, marcarSalida, verHistorialAsistencias, obtenerUsuarios, modificarUsuario, eliminarUsuario } from "../controller/usuarioController.js";
+// Gestión de usuarios (solo admin)
+router.get("/usuarios", obtenerUsuarios);
+router.put("/usuarios/:id", modificarUsuario);
+router.delete("/usuarios/:id", eliminarUsuario);
 
 
 router.get("/", viewLogin);
