@@ -1,13 +1,19 @@
 
 import express from "express";
-import { viewLogin ,viewMenu,agregarEmpleado,viewAgregar} from "../controller/usuarioController.js";
+import { viewLogin, viewMenu, agregarEmpleado, loginUsuario, marcarEntrada, marcarSalida, verHistorialAsistencias } from "../controller/usuarioController.js";
 const router = express.Router();
+
 
 router.get("/", viewLogin);
 router.get("/menu", viewMenu);
-router.get("/agregarEmpleado", viewAgregar);
+router.post("/login", loginUsuario);
 
-router.post("/guardarUsuario", agregarEmpleado);
+router.post("/marcar-entrada", marcarEntrada);
+router.post("/marcar-salida", marcarSalida);
+
+
+router.get("/verMarcas", verHistorialAsistencias);
+router.post("/agregarEmpleado", agregarEmpleado);
 
 
 export default router;

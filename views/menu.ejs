@@ -13,26 +13,251 @@
       <div class="card-body text-center">
         <h2 class="card-title mb-4">Menú Principal</h2>
         <!-- Botones solo para empleados -->
-        <% if (tipoUsuario !== 'admin') { %>
+        <% if (tipoUsuario === 'trabajador') { %>
         <div class="d-grid gap-3 mb-3">
-          <button class="btn btn-success btn-lg" onclick="location.href='/marcar-entrada'">Marcar Entrada</button>
-          <button class="btn btn-warning btn-lg" onclick="location.href='/marcar-salida'">Marcar Salida</button>
+          <button class="btn btn-success btn-lg" id="btnEntrada">Marcar Entrada</button>
+          <button class="btn btn-warning btn-lg" id="btnSalida">Marcar Salida</button>
         </div>
-        <% } %>
-        <!-- Botón para cerrar sesión (ambos tipos de usuario) -->
+        <div id="alertaAsistencia"></div>
         <div class="d-grid gap-3 mb-3">
           <button class="btn btn-secondary btn-lg" onclick="location.href='/'">Cerrar Sesión</button>
         </div>
-        <!-- Opciones exclusivas para el administrador -->
-        <% if (tipoUsuario === 'admin') { %>
+        <% } %>
+        <% if (tipoUsuario === 'administrador') { %>
           <hr>
           <div class="d-grid gap-3">
-            <button class="btn btn-primary btn-lg" onclick="location.href='/agregarEmpleado'">Agregar Empleado</button>
-            <button class="btn btn-info btn-lg" onclick="location.href='/verMarcas'">Ver Marcas de Entrada/Salida</button>
+            <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalAgregarEmpleado">Agregar Trabajador</button>
+            <button class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#modalHistorial">Ver Historial de Asistencias</button>
+<!-- Modal Historial -->
+<div class="modal fade" id="modalHistorial" tabindex="-1" aria-labelledby="modalHistorialLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalHistorialLabel">Historial de Asistencias</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <button class="btn btn-outline-primary btn-sm me-2" id="btnTodos">Todos</button>
+          <button class="btn btn-outline-warning btn-sm me-2" id="btnAtrasados">Entradas Atrasadas</button>
+          <button class="btn btn-outline-danger btn-sm" id="btnAnticipados">Salidas Anticipadas</button>
+        </div>
+        <div id="alertaHistorial"></div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped" id="tablaHistorial">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Fecha</th>
+                <th>Hora Entrada</th>
+                <th>Hora Salida</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <nav>
+          <ul class="pagination justify-content-center" id="paginacionHistorial"></ul>
+        </nav>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+            <button class="btn btn-secondary btn-lg" onclick="location.href='/'">Cerrar Sesión</button>
           </div>
         <% } %>
       </div>
     </div>
   </div>
-  <!-- Bootstrap JS (opcional) -->
-  <script src
+
+<!-- Modal -->
+<div class="modal fade" id="modalAgregarEmpleado" tabindex="-1" aria-labelledby="modalAgregarEmpleadoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="formAgregarEmpleado">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalAgregarEmpleadoLabel">Agregar Empleado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="rol" class="form-label">Rol</label>
+            <select class="form-select" id="rol" name="rol" required>
+              <option value="trabajador">Trabajador</option>
+              <option value="administrador">Administrador</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+          </div>
+          <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="apellido" name="apellido" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="text" class="form-control" id="telefono" name="telefono" required>
+          </div>
+          <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" id="direccion" name="direccion" required>
+          </div>
+          <div id="alertaEmpleado"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Agregar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // AJAX para agregar empleado
+  document.getElementById('formAgregarEmpleado').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    const alerta = document.getElementById('alertaEmpleado');
+    try {
+      const res = await fetch('/agregarEmpleado', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const mensaje = await res.text();
+      if (res.ok) {
+        alerta.innerHTML = `<div class="alert alert-success">${mensaje}</div>`;
+        form.reset();
+      } else {
+        alerta.innerHTML = `<div class="alert alert-danger">${mensaje}</div>`;
+      }
+    } catch (err) {
+      alerta.innerHTML = `<div class="alert alert-danger">Error al conectar con el servidor.</div>`;
+    }
+  });
+
+  // AJAX para marcar entrada y salida
+  const btnEntrada = document.getElementById('btnEntrada');
+  const btnSalida = document.getElementById('btnSalida');
+  const alertaAsistencia = document.getElementById('alertaAsistencia');
+  if (btnEntrada) {
+    btnEntrada.addEventListener('click', async function() {
+      try {
+        const res = await fetch('/marcar-entrada', { method: 'POST' });
+        const mensaje = await res.text();
+        if (res.ok) {
+          alertaAsistencia.innerHTML = `<div class="alert alert-success">${mensaje}</div>`;
+        } else {
+          alertaAsistencia.innerHTML = `<div class="alert alert-danger">${mensaje}</div>`;
+        }
+      } catch (err) {
+        alertaAsistencia.innerHTML = `<div class="alert alert-danger">Error al conectar con el servidor.</div>`;
+      }
+    });
+  }
+  if (btnSalida) {
+    btnSalida.addEventListener('click', async function() {
+      try {
+        const res = await fetch('/marcar-salida', { method: 'POST' });
+        const mensaje = await res.text();
+        if (res.ok) {
+          alertaAsistencia.innerHTML = `<div class="alert alert-success">${mensaje}</div>`;
+        } else {
+          alertaAsistencia.innerHTML = `<div class="alert alert-danger">${mensaje}</div>`;
+        }
+      } catch (err) {
+        alertaAsistencia.innerHTML = `<div class="alert alert-danger">Error al conectar con el servidor.</div>`;
+      }
+    });
+  }
+
+  const modalHistorial = document.getElementById('modalHistorial');
+  function cargarHistorial(tipo = '', page = 1) {
+    const alerta = document.getElementById('alertaHistorial');
+    const tbody = document.querySelector('#tablaHistorial tbody');
+    const paginacion = document.getElementById('paginacionHistorial');
+    alerta.innerHTML = '';
+    tbody.innerHTML = '<tr><td colspan="6">Cargando...</td></tr>';
+    paginacion.innerHTML = '';
+    let url = `/verMarcas?page=${page}`;
+    if (tipo) url += `&tipo=${tipo}`;
+    fetch(url)
+      .then(res => {
+        if (!res.ok) throw new Error('No se pudo obtener el historial');
+        return res.json();
+      })
+      .then(respuesta => {
+        const datos = respuesta.datos;
+        const totalPages = respuesta.totalPages;
+        const currentPage = respuesta.page;
+        if (datos.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6">Sin registros</td></tr>';
+        } else {
+          tbody.innerHTML = '';
+          datos.forEach(a => {
+            tbody.innerHTML += `<tr>
+              <td>${a.nombre}</td>
+              <td>${a.apellido}</td>
+              <td>${a.email}</td>
+              <td>${a.fecha}</td>
+              <td>${a.horaEntrada || '-'}</td>
+              <td>${a.horaSalida || '-'}</td>
+            </tr>`;
+          });
+        }
+        // Paginación
+        if (totalPages > 1) {
+          for (let i = 1; i <= totalPages; i++) {
+            paginacion.innerHTML += `<li class="page-item${i === currentPage ? ' active' : ''}"><a class="page-link" href="#">${i}</a></li>`;
+          }
+          Array.from(paginacion.querySelectorAll('a')).forEach((a, idx) => {
+            a.addEventListener('click', function(e) {
+              e.preventDefault();
+              cargarHistorial(tipo, idx + 1);
+            });
+          });
+        }
+      })
+      .catch(err => {
+        alerta.innerHTML = `<div class='alert alert-danger'>${err.message}</div>`;
+        tbody.innerHTML = '';
+      });
+  }
+  if (modalHistorial) {
+    modalHistorial.addEventListener('show.bs.modal', function () {
+      cargarHistorial();
+    });
+    document.getElementById('btnTodos').addEventListener('click', function(e) {
+      e.preventDefault();
+      cargarHistorial();
+    });
+    document.getElementById('btnAtrasados').addEventListener('click', function(e) {
+      e.preventDefault();
+      cargarHistorial('atrasados');
+    });
+    document.getElementById('btnAnticipados').addEventListener('click', function(e) {
+      e.preventDefault();
+      cargarHistorial('anticipados');
+    });
+  }
+</script>

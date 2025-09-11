@@ -12,22 +12,48 @@
 <body>
     <div class="login-box shadow">
         <h2 class="login-title">Iniciar Sesión</h2>
-        <form>
+        <form id="formLogin">
             <div class="mb-3 text-start">
                 <label for="usuario" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="usuario" placeholder="Ingresa tu usuario" required>
+                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
             </div>
             <div class="mb-3 text-start">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
             </div>
+            <div id="alertaLogin"></div>
             <button type="submit" class="btn btn-login w-100">Iniciar Sesión</button>
         </form>
         <div class="login-footer">
             Control de Asistencia &copy; 2025
         </div>
     </div>
-    <!-- Bootstrap JS Bundle CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap JS Bundle CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.getElementById('formLogin').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                const alerta = document.getElementById('alertaLogin');
+
+                try {
+                    const res = await fetch('/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    const mensaje = await res.text();
+                    if (res.ok && mensaje === 'ok') {
+                        window.location.href = '/menu';
+                    } else {
+                        alerta.innerHTML = `<div class="alert alert-danger">${mensaje}</div>`;
+                    }
+                } catch (err) {
+                    alerta.innerHTML = `<div class="alert alert-danger">Error al conectar con el servidor.</div>`;
+                }
+            });
+        </script>
 </body>
 </html>
