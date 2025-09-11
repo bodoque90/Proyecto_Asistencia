@@ -8,8 +8,18 @@ const obtenerUsuarios = async (req, res) => {
     const adminId = req.session.usuarioId;
     const page = parseInt(req.query.page) || 1;
     const pageSize = 10;
+
+    // Filtros recibidos por query
+    const { nombre, apellido, email, rol } = req.query;
+    const where = { idUsuario: { [Op.ne]: adminId } };
+
+    if (nombre) where.nombre = { [Op.like]: `%${nombre}%` };
+    if (apellido) where.apellido = { [Op.like]: `%${apellido}%` };
+    if (email) where.email = { [Op.like]: `%${email}%` };
+    if (rol) where.rol = rol;
+
     const { count, rows } = await Usuario.findAndCountAll({
-      where: { idUsuario: { [Op.ne]: adminId } },
+      where,
       attributes: ['idUsuario', 'nombre', 'apellido', 'email', 'rol', 'telefono', 'direccion'],
       offset: (page - 1) * pageSize,
       limit: pageSize,

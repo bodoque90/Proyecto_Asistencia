@@ -132,6 +132,29 @@
       </div>
       <div class="modal-body">
         <div id="alertaUsuarios"></div>
+        <!-- Formulario de filtrado -->
+        <form id="formFiltrarUsuarios" class="row g-2 mb-3">
+          <div class="col-md-3">
+            <input type="text" class="form-control" name="nombre" placeholder="Nombre">
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" name="apellido" placeholder="Apellido">
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" name="email" placeholder="Email">
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" name="rol">
+              <option value="">Rol</option>
+              <option value="trabajador">Trabajador</option>
+              <option value="administrador">Administrador</option>
+            </select>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btnLimpiarFiltro">Limpiar</button>
+          </div>
+        </form>
         <div class="table-responsive">
           <table class="table table-bordered table-striped" id="tablaUsuarios">
             <thead>
@@ -448,6 +471,7 @@
   }
 
   let paginaUsuarios = 1;
+  let filtrosUsuarios = {};
   async function cargarUsuarios(page = 1) {
     paginaUsuarios = page;
     const alerta = document.getElementById('alertaUsuarios');
@@ -456,8 +480,13 @@
     alerta.innerHTML = '';
     tbody.innerHTML = '<tr><td colspan="7">Cargando...</td></tr>';
     if (paginacion) paginacion.innerHTML = '';
+    // Construir query string con filtros
+    let query = `page=${page}`;
+    Object.entries(filtrosUsuarios).forEach(([key, value]) => {
+      if (value) query += `&${key}=${encodeURIComponent(value)}`;
+    });
     try {
-      const res = await fetch(`/usuarios?page=${page}`);
+      const res = await fetch(`/usuarios?${query}`);
       if (!res.ok) throw new Error('No se pudo obtener la lista de usuarios');
       const data = await res.json();
       const usuarios = data.usuarios || [];
@@ -509,6 +538,26 @@
       });
     });
   }
+
+  // Filtrar usuarios
+  document.getElementById('formFiltrarUsuarios').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = e.target;
+    filtrosUsuarios = {
+      nombre: form.nombre.value.trim(),
+      apellido: form.apellido.value.trim(),
+      email: form.email.value.trim(),
+      rol: form.rol.value
+    };
+    cargarUsuarios(1);
+  });
+
+  // Limpiar filtro
+  document.getElementById('btnLimpiarFiltro').addEventListener('click', function() {
+    filtrosUsuarios = {};
+    document.getElementById('formFiltrarUsuarios').reset();
+    cargarUsuarios(1);
+  });
 
   // Abrir modal de edición y cargar datos
   async function abrirModalEditarUsuario(id) {
