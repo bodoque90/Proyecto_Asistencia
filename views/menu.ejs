@@ -9,8 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="bg-light">
-  <body class="menu-bg">
+<body class="menu-bg">
   <div class="d-flex justify-content-center align-items-center min-vh-100">
     <div class="login-box menu shadow">
       <div class="quimico-logo menu">
@@ -20,6 +19,12 @@
       <h2 class="login-title menu"><i class="bi bi-speedometer2"></i> Menú Principal</h2>
       <!-- Botones solo para empleados -->
       <% if (tipoUsuario === 'trabajador') { %>
+      <div class="mb-4 d-flex justify-content-center align-items-center">
+        <div class="reloj-quimico-container">
+          <i class="bi bi-beaker reloj-quimico-icon"></i>
+          <div id="relojDigital" class="reloj-quimico-dig"></div>
+        </div>
+      </div>
       <form>
         <div class="mb-3 d-grid gap-2">
           <button class="btn btn-success btn-lg" id="btnEntrada" type="button">Marcar Entrada</button>
@@ -30,7 +35,27 @@
           <button class="btn btn-secondary btn-lg" type="button" onclick="location.href='/'">Cerrar Sesión</button>
         </div>
       </form>
-      <% } %>
+
+<script>
+// Script del reloj digital para trabajadores
+document.addEventListener('DOMContentLoaded', function() {
+  var reloj = document.getElementById('relojDigital');
+  if (reloj) {
+    function actualizarReloj() {
+      const ahora = new Date();
+      const horas = String(ahora.getHours()).padStart(2, '0');
+      const minutos = String(ahora.getMinutes()).padStart(2, '0');
+      const segundos = String(ahora.getSeconds()).padStart(2, '0');
+      reloj.textContent = `${horas}:${minutos}:${segundos}`;
+    }
+    setInterval(actualizarReloj, 1000);
+    actualizarReloj();
+  }
+});
+</script>
+<% } %>
+
+
       <% if (tipoUsuario === 'administrador') { %>
         <hr>
         <div class="d-grid gap-3 mb-3">

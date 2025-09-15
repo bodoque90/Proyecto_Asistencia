@@ -1,3 +1,27 @@
+/* Reloj digital para trabajadores */
+.reloj-quimico-container {
+  background: linear-gradient(90deg, #1b6ca8 0%, #43cea2 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px #1b6ca855;
+  padding: 0.7rem 2.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+.reloj-quimico-icon {
+  font-size: 2.3rem;
+  color: #f9a602;
+  filter: drop-shadow(0 2px 4px #fff8);
+}
+.reloj-quimico-dig {
+  font-size: 2.3rem;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px #1b6ca8cc;
+}
 body {
     background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
     min-height: 100vh;
