@@ -62,3 +62,81 @@ body::after {
     color: #888;
     font-size: 0.95rem;
 }
+
+    .login-box {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+      padding: 2.5rem 2.5rem 1.5rem 2.5rem;
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+      margin-top: 30px;
+    }
+    .login-title {
+      color: #1b6ca8;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .login-title .bi {
+      font-size: 2.2rem;
+      color: #f9a602;
+      filter: drop-shadow(0 2px 4px #1b6ca8aa);
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #1b6ca8 0%, #4fd1c5 100%);
+      border: none;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .btn-warning {
+      background: linear-gradient(90deg, #f9a602 0%, #f7971e 100%);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+    }
+    .btn-info {
+      background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+    }
+    .btn-success {
+      background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+      border: none;
+      font-weight: 600;
+    }
+    .btn-secondary {
+      background: #2c5364;
+      color: #fff;
+      font-weight: 600;
+    }
+    .login-footer {
+      margin-top: 2.5rem;
+      color: #888;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+    .quimico-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+    .quimico-logo .bi {
+      font-size: 3.2rem;
+      color: #1b6ca8;
+      margin-right: 0.5rem;
+      filter: drop-shadow(0 2px 4px #f9a60288);
+    }
+    .quimico-logo span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #f9a602;
+      letter-spacing: 1px;
+    }
