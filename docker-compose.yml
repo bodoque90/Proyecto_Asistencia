@@ -7,27 +7,24 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - DB_HOST=db
+      # Para MySQL instalado en el host de Windows Server
+      - DB_HOST=host.docker.internal
       - DB_PORT=3306
       - DB_USER=root
       - DB_PASS=example_password
       - DB_NAME=asistencia_db
       - NODE_ENV=production
-    depends_on:
-      - db
     volumes:
-      - ./:/usr/src/app:cached
+      - C:\Users\jesuu\OneDrive\Escritorio\c#\test\Proyecto_Asistencia:C:\app:ro
+    networks:
+      - app-network
 
-  db:
-    image: mysql:8.0
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: example_password
-      MYSQL_DATABASE: asistencia_db
-    ports:
-      - "3307:3306"
-    volumes:
-      - db_data:/var/lib/mysql
+networks:
+  app-network:
+    driver: nat
 
-volumes:
-  db_data:
+# Nota: MySQL debe instalarse como servicio en Windows Server 2016
+# Descarga: https://dev.mysql.com/downloads/mysql/
+# Después de instalar MySQL en Windows:
+# 1. Configura la base de datos con las credenciales de arriba
+# 2. Ejecuta: docker-compose up --build
